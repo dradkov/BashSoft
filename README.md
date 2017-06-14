@@ -1,2 +1,2 @@
 # BashSoft
-SoftUni Project
+StoryMode
