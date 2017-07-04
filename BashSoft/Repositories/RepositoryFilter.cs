@@ -5,44 +5,43 @@
     using System.Linq;
     using IO;
     using DataInfo;
-    public static class RepositoryFilters
+
+    public class RepositoryFilter
     {
-        public static void FilterAndTake(Dictionary<string, List<int>> wantedData,
+        public void FilterAndTake(Dictionary<string, double> studentsWithMarks,
             string wantedFilter, int studentsToTake)
         {
             if (wantedFilter == "excellent")
             {
-                FilterAndTake(wantedData, x => x >= 5, studentsToTake);
+                FilterAndTake(studentsWithMarks, x => x >= 5, studentsToTake);
             }
             else if (wantedFilter == "average")
             {
-                FilterAndTake(wantedData, x => x < 5 && x >= 3.5, studentsToTake);
+                FilterAndTake(studentsWithMarks, x => x < 5 && x >= 3.5, studentsToTake);
             }
             else if (wantedFilter == "poor")
             {
-                FilterAndTake(wantedData, x => x < 3.5, studentsToTake);
+                FilterAndTake(studentsWithMarks, x => x < 3.5, studentsToTake);
             }
             else
             {
                 OutputWriter.DisplayException(ExceptionMessages.InvalidStudentsFilter);
             }
         }
-        private static void FilterAndTake(Dictionary<string, List<int>> wantedData,
+        private void FilterAndTake(Dictionary<string, double> studentsWithMarks,
            Predicate<double> givenFilter, int studentsToTake)
         {
             int printedCount = 0;
-            foreach (var student_points in wantedData)
+            foreach (var studentMark in studentsWithMarks)
             {
                 if (printedCount == studentsToTake)
                 {
                     break;
                 }
-                double averageScore = student_points.Value.Average();
-                double perpercentageOfFullfillment = averageScore / 100;
-                double mark = perpercentageOfFullfillment * 4 + 2;
-                if (givenFilter(mark))
+               
+                if (givenFilter(studentMark.Value))
                 {
-                    OutputWriter.PrintStudent(student_points);
+                    OutputWriter.PrintStudent(new KeyValuePair<string, double>(studentMark.Key,studentMark.Value));
                     printedCount++;
                 }
             }

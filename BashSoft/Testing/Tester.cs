@@ -5,9 +5,9 @@
     using IO;
     using DataInfo;
 
-    public static class Tester
+    public class Tester
     {
-        public static void CompareContent(string userOutputPath, string expectedOutputPath)
+        public void CompareContent(string userOutputPath, string expectedOutputPath)
         {
             OutputWriter.WriteMessageOnNewLine("Reading files...");
             try
@@ -29,7 +29,7 @@
 
         }
 
-        private static string GetMismatchPath(string expectedOutputPath)
+        private string GetMismatchPath(string expectedOutputPath)
         {
             int indexOf = expectedOutputPath.LastIndexOf('\\');
             string directoryPath = expectedOutputPath.Substring(0, indexOf);
@@ -37,7 +37,7 @@
             return finalPath;
         }
 
-        private static string[] GetLinesWithPossibleMismathces(
+        private string[] GetLinesWithPossibleMismathces(
            string[] actualOutputLines, string[] expectedOutputLines, out bool hasMismatch)
         {
             hasMismatch = false;
@@ -76,7 +76,7 @@
             return mismatches;
         }
 
-        private static void PrintOutput(string[] mismatches, bool hasMismatch, string mismatchPath)
+        private void PrintOutput(string[] mismatches, bool hasMismatch, string mismatchPath)
         {
             if (hasMismatch)
             {

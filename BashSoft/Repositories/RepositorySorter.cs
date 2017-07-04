@@ -5,23 +5,24 @@
     using IO;
     using DataInfo;
 
-    public static class RepositorySorters
+    public class RepositorySorter
     {
-        public static void OrderAndTake(Dictionary<string, List<int>> wantedData,
+        public void OrderAndTake(Dictionary<string,double> studentWithMarks,
             string comparison, int studentsToTake)
         {
             comparison = comparison.ToLower();
+            
             if (comparison == "ascending")
             {
-                PrintStudents(wantedData
-                    .OrderBy(x => x.Value.Sum())
+                this.PrintStudents(studentWithMarks
+                    .OrderBy(x => x.Value)
                     .Take(studentsToTake)
                     .ToDictionary(pair => pair.Key, pair => pair.Value));
             }
             else if (comparison == "descending")
             {
-                PrintStudents(wantedData
-                   .OrderByDescending(x => x.Value.Sum())
+                this.PrintStudents(studentWithMarks
+                   .OrderByDescending(x => x.Value)
                    .Take(studentsToTake)
                    .ToDictionary(pair => pair.Key, pair => pair.Value));
             }
@@ -31,9 +32,9 @@
             }
         }
 
-        private static void PrintStudents(Dictionary<string, List<int>> sortedStudents)
+        private void PrintStudents(Dictionary<string, double> sortedStudents)
         {
-            foreach (KeyValuePair<string, List<int>> kvp in sortedStudents)
+            foreach (KeyValuePair<string, double> kvp in sortedStudents)
             {
                 OutputWriter.PrintStudent(kvp);
             }
