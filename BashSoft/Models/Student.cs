@@ -18,37 +18,48 @@ namespace BashSoft.Models
         public Student(string userName)
         {
             this.UserName = userName;
-            this.EnrolledCourses = new Dictionary<string, Course>();
-            this.MarksByCourseName = new Dictionary<string, double>();
+            this.enrolledCourses = new Dictionary<string, Course>();
+            this.marksByCourseName = new Dictionary<string, double>();
 
         }
 
         public string UserName
         {
             get { return this.userName; }
-            set { this.userName = value; }
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentNullException(nameof(this.userName), ExceptionMessages.NullOrEmptyValue);
+                }
+                this.userName = value;
+            }
         }
 
-        public Dictionary<string, Course> EnrolledCourses
+        public IReadOnlyDictionary<string, Course> EnrolledCourses
         {
-            get { return this.enrolledCourses; }
-            set { this.enrolledCourses = value; }
+            get
+            {
+                return this.enrolledCourses;
+            }
+          
         }
 
-      
-        public Dictionary<string, double> MarksByCourseName
+
+        public IReadOnlyDictionary<string, double> MarksByCourseName
         {
-            get { return this.marksByCourseName; }
-            set { this.marksByCourseName = value; }
+            get
+            {
+                return marksByCourseName;
+            }
         }
 
         public void EnrollInCourse(Course course)
         {
             if (this.enrolledCourses.ContainsKey(course.Name))
             {
-                OutputWriter.DisplayException(string.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse,
-                    this.userName, course.Name));
-                return;
+                throw new ArgumentException(ExceptionMessages.InvalidInfo);
+
             }
             this.enrolledCourses.Add(course.Name, course);
         }
@@ -56,15 +67,13 @@ namespace BashSoft.Models
         {
             if (!this.enrolledCourses.ContainsKey(courseName))
             {
-                OutputWriter.DisplayException(ExceptionMessages.NotEnrolledInCourse);
-                return;
+                throw new ArgumentException(ExceptionMessages.InvalidInfo);
             }
-            if (scores.Length> Course.numberOfTaskOnExam )
+            if (scores.Length > Course.numberOfTaskOnExam)
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
-                return;
+                throw new ArgumentException(ExceptionMessages.InvalidInfo);
             }
-            this.marksByCourseName.Add(courseName,CalculateMark(scores));
+            this.marksByCourseName.Add(courseName, CalculateMark(scores));
         }
 
         private double CalculateMark(int[] scores)
@@ -74,5 +83,5 @@ namespace BashSoft.Models
             double mark = percentageOfSolvedExam * 4 + 2;
             return mark;
         }
-    } 
+    }
 }

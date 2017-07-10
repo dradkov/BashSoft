@@ -19,26 +19,32 @@ namespace BashSoft.Models
         public Course(string name)
         {
             this.Name = name;
-            this.StudentsByName = new Dictionary<string, Student>();
+            this.studentsByName = new Dictionary<string, Student>();
 
         }
 
         public string  Name
         {
             get { return this.name; }
-            set { this.name = value; }
+           private  set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentNullException(nameof(this.name), ExceptionMessages.NullOrEmptyValue);
+                }
+                this.name = value;
+            }
         }
-        public Dictionary<string, Student> StudentsByName
+        public IReadOnlyDictionary<string, Student> StudentsByName
         {
-            get { return this.studentsByName; }
-            set { this.studentsByName = value; }
+            get { return studentsByName; }
+            
         }
         public void EnrolledStudents(Student student)
         {
             if (this.studentsByName.ContainsKey(student.UserName))
             {
-                OutputWriter.DisplayException(string.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse,student.UserName,this.Name));
-                return;
+                throw new ArgumentException(ExceptionMessages.InvalidInfo);
             }
             this.studentsByName.Add(student.UserName,student);
         }

@@ -29,8 +29,8 @@
         {
             if (this.isDataInitialized)
             {
-                OutputWriter.WriteMessageOnNewLine(ExceptionMessages.DataAlreadyInitialisedException);
-                return;
+                throw new ArgumentException(ExceptionMessages.DataNotInitializedExceptionMessage);
+             
 
             }
 
@@ -42,7 +42,7 @@
         {
             if (!this.isDataInitialized)
             {
-                OutputWriter.DisplayException(ExceptionMessages.DataNotInitializedExceptionMessage);
+                throw new ArgumentException(ExceptionMessages.DataNotInitializedExceptionMessage);
             }
           
             this.students = null;
@@ -78,6 +78,7 @@
                             if (score.Any(x => x > 100 || x < 0))
                             {
                                 OutputWriter.DisplayException(ExceptionMessages.InvalidScore);
+                                continue;
                             }
                             if (score.Length > Course.numberOfTaskOnExam)
                             {
@@ -103,7 +104,7 @@
                         catch (Exception fex)
                         {
 
-                            OutputWriter.DisplayException(fex.Message + $"at line : {line}");
+                           throw new ArgumentException(fex.Message + $"at line : {line}");
                         }
                         
 

@@ -25,7 +25,7 @@
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidStudentsFilter);
+                throw new ArgumentException(ExceptionMessages.InvalidStudentsFilter);
             }
         }
         private void FilterAndTake(Dictionary<string, double> studentsWithMarks,

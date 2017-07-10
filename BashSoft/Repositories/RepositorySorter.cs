@@ -4,6 +4,7 @@
     using System.Linq;
     using IO;
     using DataInfo;
+    using System;
 
     public class RepositorySorter
     {
@@ -28,7 +29,7 @@
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidComparisonQuery);
+                throw new ArgumentException(ExceptionMessages.InvalidComparisonQuery);
             }
         }
 

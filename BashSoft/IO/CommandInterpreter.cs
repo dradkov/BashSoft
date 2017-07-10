@@ -5,6 +5,8 @@
     using Repository;
     using Testing;
     using DataInfo;
+    using System;
+    using System.IO;
 
     public class CommandInterpreter
     {
@@ -26,6 +28,48 @@
         {
             string[] data = input.Split(' ');
             string command = data[0];
+
+            try
+            {
+                this.ParseCommand(input, command, data);
+            }
+           
+            catch (DirectoryNotFoundException dnfe)
+            {
+
+                OutputWriter.DisplayException(dnfe.Message);
+            }
+            try
+            {
+                this.ParseCommand(input, command, data);
+            }
+            catch (ArgumentOutOfRangeException aore)
+            {
+
+                OutputWriter.DisplayException(aore.Message);
+            }
+            try
+            {
+                this.ParseCommand(input, command, data);
+            }
+            catch (ArgumentException ae)
+            {
+
+                OutputWriter.DisplayException(ae.Message);
+            }
+            try
+            {
+                this.ParseCommand(input, command, data);
+            }
+            catch (Exception e)
+            {
+
+                OutputWriter.DisplayException(e.Message);
+            }
+        }
+
+        private void ParseCommand(string input, string command, string[] data)
+        {
             switch (command)
             {
                 case "open":
