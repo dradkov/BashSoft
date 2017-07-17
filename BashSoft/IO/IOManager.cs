@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using DataInfo;
+    using BashSoft.Exceptions;
 
     public class IOManager
     {
@@ -61,7 +62,7 @@
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException(ExceptionMessages.ForbiddenSymbolsContainedInName);
+                throw new InvalidFileNameException();
             }
         }
 
@@ -78,7 +79,7 @@
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    throw new ArgumentOutOfRangeException("indexOfLastSlash", ExceptionMessages.InvalidDestination);
+                    throw new InvalidPathException();
                 }
             }
             else
@@ -94,8 +95,7 @@
             if (!Directory.Exists(absolutePath))
             {
                 throw new DirectoryNotFoundException(ExceptionMessages.InvalidPath);
-                //OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
-                //return;
+                
             }
 
             SessionData.currentPath = absolutePath;

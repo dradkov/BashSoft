@@ -19,7 +19,7 @@ namespace BashSoft.DataInfo
 
         public const string ComparisonOfFilesWithDifferentSizes = "Files not of equal size, certain mismatch.";
 
-        public const string ForbiddenSymbolsContainedInName = "The given name contains symbols that are not allowed to be used in names of files and folders.";
+
 
         public const string UnableToParseNumber = "The sequence you've written is not a valid number.";
 
@@ -31,17 +31,20 @@ namespace BashSoft.DataInfo
 
         public const string InvalidTakeQuantityParameter = "The take quantity expected does not match the format wanted!";
 
-        public const string StudentAlreadyEnrolledInGivenCourse = "Student Alread yEnrolled In Given Course! ";
+       
 
         public const string NotEnrolledInCourse = "Student must be enrolled in a course before you set his mark.";
 
         public const string InvalidNumberOfScores = "The number of scores for the given course is greater than the possible.";
 
         public const string InvalidScore = "The number for the score you've entered is not in the range of 0 - 100";
-        public const string NullOrEmptyValue = "The value of the variable CANNOT be null or empty!";
-        public const string InvalidDestination = "The destination is not proper";
-        public const string InvalidInfo = "The given information already Exist";
+        
+       
 
+
+
+     
+        
 
     }
 }
