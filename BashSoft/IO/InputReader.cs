@@ -2,14 +2,15 @@
 {
     using System;
     using DataInfo;
+    using BashSoft.Contracts;
 
-    public class InputReader
+    public class InputReader : IReader
     {
         private const string EndCommand = "quit";
-        private CommandInterpreter interpreter;
+        private IInterpreter interpreter;
 
 
-        public InputReader(CommandInterpreter interpreter)
+        public InputReader(IInterpreter interpreter)
         {
             this.interpreter = interpreter;
         }

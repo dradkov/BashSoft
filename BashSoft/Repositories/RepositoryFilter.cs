@@ -5,8 +5,9 @@
     using System.Linq;
     using IO;
     using DataInfo;
+    using BashSoft.Contracts.DatabaseInterfaces;
 
-    public class RepositoryFilter
+    public class RepositoryFilter : IDataFilter
     {
         public void FilterAndTake(Dictionary<string, double> studentsWithMarks,
             string wantedFilter, int studentsToTake)

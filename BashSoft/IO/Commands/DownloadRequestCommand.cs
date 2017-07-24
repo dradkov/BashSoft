@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BashSoft.Repository;
-using BashSoft.Testing;
-using BashSoft.Exceptions;
-using BashSoft.Network;
-
-namespace BashSoft.IO.Commands
+﻿namespace BashSoft.IO.Commands
 {
+
+    using BashSoft.Exceptions;
+    using BashSoft.Contracts;
+    using BashSoft.Network;
+    using BashSoft.Contracts.DatabaseInterfaces;
+
     public class DownloadRequestCommand : Command
     {
-        public DownloadRequestCommand(string input, string[] data, Tester judje, StudentRepository repository, IOManager inputOutputmaneger) : base(input, data, judje, repository, inputOutputmaneger)
+        public DownloadRequestCommand(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger) : base(input, data, judje, repository, inputOutputmaneger)
         {
         }
 

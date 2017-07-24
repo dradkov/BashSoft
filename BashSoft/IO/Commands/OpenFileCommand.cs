@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BashSoft.Repository;
-using BashSoft.Testing;
-using BashSoft.Exceptions;
-using System.Diagnostics;
-using BashSoft.DataInfo;
-
-namespace BashSoft.IO.Commands
+﻿namespace BashSoft.IO.Commands
 {
+
+    using BashSoft.Exceptions;
+    using System.Diagnostics;
+    using BashSoft.DataInfo;
+    using BashSoft.Contracts;
+    using BashSoft.Contracts.DatabaseInterfaces;
+
     public class OpenFileCommand : Command
     {
-        public OpenFileCommand(string input, string[] data, Tester judje, StudentRepository repository, IOManager inputOutputmaneger)
+        public OpenFileCommand(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger)
             : base(input, data, judje, repository, inputOutputmaneger)
         {
         }

@@ -5,8 +5,10 @@
     using IO;
     using DataInfo;
     using System;
+    using BashSoft.Contracts;
+    using BashSoft.Contracts.DatabaseInterfaces;
 
-    public class RepositorySorter
+    public class RepositorySorter : IDataSorter
     {
         public void OrderAndTake(Dictionary<string,double> studentWithMarks,
             string comparison, int studentsToTake)

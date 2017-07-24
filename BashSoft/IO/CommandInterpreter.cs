@@ -5,14 +5,16 @@
     using System.IO;
     using BashSoft.Exceptions;
     using BashSoft.IO.Commands;
+    using BashSoft.Contracts;
+    using BashSoft.Contracts.DatabaseInterfaces;
 
-    public class CommandInterpreter
+    public class CommandInterpreter: IInterpreter
     {
-        private Tester judge;
-        private StudentRepository repository;
-        private IOManager inputOutputManager;
+        private IContentComparer judge;
+        private IDatabase repository;
+        private IDirectoryManager inputOutputManager;
 
-        public CommandInterpreter(Tester judge, StudentRepository repository, IOManager inputOutputManager)
+        public CommandInterpreter(IContentComparer judge, IDatabase repository, IDirectoryManager inputOutputManager)
         {
             this.judge = judge;
             this.repository = repository;
@@ -23,11 +25,11 @@
         public void InterpretCommand(string input)
         {
             string[] data = input.Split();
-            string commandName = data[0];
+            string commandName = data[0].ToLower();
 
             try
             {
-                Command command = this.ParseCommand(input,commandName,data);
+                IExecutable command = this.ParseCommand(input,commandName,data);
                 command.Execute();
             }
            
@@ -39,7 +41,7 @@
             
         }
 
-        private Command ParseCommand(string input, string command, string[] data)
+        private IExecutable ParseCommand(string input, string command, string[] data)
         {
             switch (command)
             {

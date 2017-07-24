@@ -1,26 +1,21 @@
-﻿using BashSoft.DataInfo;
-using BashSoft.Exceptions;
-using BashSoft.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BashSoft.Models
+﻿namespace BashSoft.Models
 {
-   public class Course
+    using BashSoft.Contracts;
+    using BashSoft.Exceptions;
+    using System.Collections.Generic;
+
+    public class SoftUniCourse : ICourse
     {
         private string name;
-        private Dictionary<string, Student> studentsByName;
+        private Dictionary<string, IStudent> studentsByName;
 
         public const int numberOfTaskOnExam = 5;
         public const int maxScoreOneExamTask = 100;
 
-        public Course(string name)
+        public SoftUniCourse(string name)
         {
             this.Name = name;
-            this.studentsByName = new Dictionary<string, Student>();
+            this.studentsByName = new Dictionary<string, IStudent>();
 
         }
 
@@ -36,12 +31,12 @@ namespace BashSoft.Models
                 this.name = value;
             }
         }
-        public IReadOnlyDictionary<string, Student> StudentsByName
+        public IReadOnlyDictionary<string, IStudent> StudentsByName
         {
             get { return studentsByName; }
             
         }
-        public void EnrolledStudents(Student student)
+        public void EnrolledStudents(IStudent student)
         {
             if (this.studentsByName.ContainsKey(student.UserName))
             {

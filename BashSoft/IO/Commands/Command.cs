@@ -1,23 +1,18 @@
-﻿using BashSoft.Repository;
-using BashSoft.Testing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BashSoft.IO.Commands
+﻿namespace BashSoft.IO.Commands
 {
-    public abstract class Command
+    using BashSoft.Contracts;
+    using BashSoft.Contracts.DatabaseInterfaces;
+
+    public abstract class Command : IExecutable
     {
         private string input;
         private string[] data;
-        private Tester judje;
-        private StudentRepository repository;
-        private IOManager inputOutputmaneger;
+        private IContentComparer judje;
+        private IDatabase repository;
+        private IDirectoryManager inputOutputmaneger;
 
 
-        public Command(string input, string[] data, Tester judje, StudentRepository repository, IOManager inputOutputmaneger)
+        public Command(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger)
         {
             this.Input = input;
             this.Data = data;
@@ -53,7 +48,7 @@ namespace BashSoft.IO.Commands
             }
 
         }
-        protected Tester Judge
+        protected IContentComparer Judge
         {
             get
             {
@@ -61,7 +56,7 @@ namespace BashSoft.IO.Commands
             }
 
         }
-        protected StudentRepository Repository
+        protected IDatabase Repository
         {
             get
             {
@@ -69,7 +64,7 @@ namespace BashSoft.IO.Commands
             }
 
         }
-        protected IOManager InputOutputmaneger
+        protected IDirectoryManager InputOutputmaneger
         {
             get
             {

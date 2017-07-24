@@ -4,8 +4,9 @@
     using System.IO;
     using IO;
     using DataInfo;
+    using BashSoft.Contracts;
 
-    public class Tester
+    public class Tester : IContentComparer
     {
         public void CompareContent(string userOutputPath, string expectedOutputPath)
         {

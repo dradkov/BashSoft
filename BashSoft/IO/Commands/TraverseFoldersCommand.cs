@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BashSoft.Repository;
-using BashSoft.Testing;
-using BashSoft.DataInfo;
-using BashSoft.Exceptions;
-
-namespace BashSoft.IO.Commands
+﻿namespace BashSoft.IO.Commands
 {
+    using BashSoft.DataInfo;
+    using BashSoft.Exceptions;
+    using BashSoft.Contracts;
+    using BashSoft.Contracts.DatabaseInterfaces;
+
     public class TraverseFoldersCommand : Command
     {
-        public TraverseFoldersCommand(string input, string[] data, Tester judje, StudentRepository repository, IOManager inputOutputmaneger) : base(input, data, judje, repository, inputOutputmaneger)
+        public TraverseFoldersCommand(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger) : base(input, data, judje, repository, inputOutputmaneger)
         {
         }
 
