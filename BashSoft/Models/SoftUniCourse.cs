@@ -3,6 +3,7 @@
     using BashSoft.Contracts;
     using BashSoft.Exceptions;
     using System.Collections.Generic;
+    using System;
 
     public class SoftUniCourse : ICourse
     {
@@ -43,6 +44,11 @@
                 throw new DuplicateEntryInStructureException(student.UserName,this.Name);
             }
             this.studentsByName.Add(student.UserName,student);
+        }
+
+        public int CompareTo(ICourse other)
+        {
+            return this.Name.CompareTo(other.Name);
         }
     }
 }

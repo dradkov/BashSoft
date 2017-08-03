@@ -77,6 +77,8 @@
                     return new DownloadAsyncRequest(input, data, judge, this.repository, this.inputOutputManager);
                 case "show":
                     return new ShowCourseCommand(input, data, judge, this.repository, this.inputOutputManager);
+                case "display":
+                    return new DisplayCommand(input, data, judge, this.repository, this.inputOutputManager);
                 default:
                     throw new InvalidCommandException(input);
                    

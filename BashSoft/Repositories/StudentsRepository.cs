@@ -10,6 +10,8 @@
     using System.Linq;
     using BashSoft.Contracts;
     using BashSoft.Contracts.DatabaseInterfaces;
+    using BashSoft.Interfaces;
+    using BashSoft.DataStructures;
 
     public class StudentRepository : IDatabase
     {
@@ -205,6 +207,22 @@
                .StudentsByName.ToDictionary(x => x.Key, x => x.Value.MarksByCourseName[courseName]);
 
             this.sorter.OrderAndTake(marks, comparison, studentsToTake.Value);
+        }
+
+        public ISimpleOrderedBag<ICourse> GetAllCoursesSorted(IComparer<ICourse> cmp)
+        {
+            SimpleSortedList<ICourse> sortedCourses = new SimpleSortedList<ICourse>(cmp);
+            sortedCourses.AddAll(this.courses.Values);
+            return sortedCourses;
+        }
+
+        public ISimpleOrderedBag<IStudent> GetAllStudentsSorted(IComparer<IStudent> cmp)
+        {
+            SimpleSortedList<IStudent> sortedStudents = new SimpleSortedList<IStudent>(cmp);
+            sortedStudents.AddAll(this.students.Values);
+
+            return sortedStudents;
+
         }
     }
 }

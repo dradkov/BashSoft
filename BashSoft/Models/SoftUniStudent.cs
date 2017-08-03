@@ -4,6 +4,7 @@
     using BashSoft.Exceptions;
     using System.Collections.Generic;
     using System.Linq;
+    using System;
 
     public class SoftUniStudent : IStudent
     {
@@ -51,6 +52,11 @@
             }
         }
 
+        public int CompareTo(IStudent other)
+        {
+            return this.UserName.CompareTo(other.UserName);
+        }
+
         public void EnrollInCourse(ICourse course)
         {
             if (this.enrolledCourses.ContainsKey(course.Name))
@@ -79,6 +85,11 @@
                 scores.Sum() / (double)(SoftUniCourse.numberOfTaskOnExam * SoftUniCourse.maxScoreOneExamTask);
             double mark = percentageOfSolvedExam * 4 + 2;
             return mark;
+        }
+
+        public override string ToString()
+        {
+            return this.UserName;
         }
     }
 }

@@ -36,6 +36,8 @@
             OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|", "get help – help"));
             OutputWriter.WriteMessageOnNewLine($"{new string('_', 100)}");
             OutputWriter.WriteEmptyLine();
+            OutputWriter.WriteMessageOnNewLine(string.Format("|{0, -98}|",
+                "display data entities - display students/courses ascending/descending"));
         }
     }
 }
