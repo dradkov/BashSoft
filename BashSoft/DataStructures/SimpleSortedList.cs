@@ -5,35 +5,41 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Text;
-    using BashSoft.Contracts;
 
-    public class SimpleSortedList<T> : ISimpleOrderedBag<T>  where T :IComparable<T> 
+    public class SimpleSortedList<T> : ISimpleOrderedBag<T> where T : IComparable<T>
     {
         private const int DefaultSize = 16;
 
         private T[] innerColection;
         private int size;
         private IComparer<T> comparison;
-        
 
         public SimpleSortedList(int capacity)
-            : this(Comparer<T>.Create((x,y)=>x.CompareTo(y)),capacity)
+            : this(Comparer<T>.Create((x, y) => x.CompareTo(y)), capacity)
         {
-
+            this.size = 0; // Possible Problem
+            this.innerColection = new T[capacity];
+          
         }
 
         public SimpleSortedList(IComparer<T> comparer, int capacity)
         {
             this.comparison = comparer;
-            this.size = capacity;
+            this.innerColection = new T[capacity];
         }
 
         public SimpleSortedList(IComparer<T> comparer)
         {
             this.comparison = comparer;
-            
-        }
+            this.innerColection = new T[DefaultSize];
 
+        }
+        public SimpleSortedList()
+        {
+            
+            this.innerColection = new T[DefaultSize];
+
+        }
 
         public int Size
         {
@@ -42,10 +48,51 @@
                 return this.size;
 
             }
+
+        }
+
+        public bool Remove(T element)
+        {
+            bool hasBeenRemoved = false;
+            int indexOfRemovedElement = 0;
+
+            for (int i = 0; i < this.Size; i++)
+            {
+                if (this.innerColection[i].Equals(element))
+                {
+                    indexOfRemovedElement = i;
+                    this.innerColection[i] = default(T);
+                    hasBeenRemoved = true;
+                    break;
+                }
+            };
+
+            if (hasBeenRemoved)
+            {
+                for (int i = indexOfRemovedElement; i < this.Size - 1; i++)
+                {
+                    this.innerColection[i] = this.innerColection[i + 1];
+                }
+                this.innerColection[this.size - 1] = default(T);
+            }
+
+            return hasBeenRemoved;
+
+        }
+
+        public int Capacity
+        {
+            get { return this.innerColection.Length; }
+
         }
 
         public void Add(T element)
         {
+            if (element == null)
+            {
+                throw  new InvalidOperationException("The element Cannot be null");
+            }
+
             if (this.innerColection.Length == this.Size)
             {
                 Resize();
@@ -57,7 +104,7 @@
 
         public void AddAll(ICollection<T> collection)
         {
-            if (this.Size + collection.Count>= this.innerColection.Length)
+            if (this.Size + collection.Count >= this.innerColection.Length)
             {
                 this.MultiResize(collection);
             }
@@ -72,7 +119,7 @@
         private void MultiResize(ICollection<T> collection)
         {
             int newSize = this.innerColection.Length * 2;
-            while (this.Size+collection.Count>=newSize)
+            while (this.Size + collection.Count >= newSize)
             {
                 newSize *= 2;
             }
@@ -81,7 +128,6 @@
             Array.Copy(this.innerColection, newCollection, this.size);
             this.innerColection = newCollection;
         }
-
 
         public string JoinWith(string joiner)
         {
@@ -103,7 +149,7 @@
                 yield return this.innerColection[i];
             }
         }
-       
+
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -114,7 +160,7 @@
 
         private void InitializeInnerCollection(int capacity)
         {
-            if (capacity<0)
+            if (capacity < 0)
             {
                 throw new ArgumentException("Capacity cannot be negative!");
             }
@@ -127,7 +173,5 @@
             Array.Copy(innerColection, newCollection, Size);
             innerColection = newCollection;
         }
-
-        
     }
 }
