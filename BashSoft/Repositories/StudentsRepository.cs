@@ -42,6 +42,7 @@
             this.courses = new Dictionary<string, ICourse>();
             this.ReadData(fileName);
         }
+
         public void UnloadData()
         {
             if (!this.isDataInitialized)
@@ -84,15 +85,18 @@
                                 OutputWriter.DisplayException(ExceptionMessages.InvalidScore);
                                 continue;
                             }
+
                             if (score.Length > SoftUniCourse.numberOfTaskOnExam)
                             {
                                 OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
                                 continue;
                             }
+
                             if (!this.students.ContainsKey(userName))
                             {
                                 this.students.Add(userName, new SoftUniStudent(userName));
                             }
+
                             if (!this.courses.ContainsKey(courseName))
                             {
                                 this.courses.Add(courseName, new SoftUniCourse(courseName));
@@ -148,6 +152,7 @@
             {
                 return true;
             }
+
             else
             {
                 OutputWriter.DisplayException
@@ -222,7 +227,6 @@
             sortedStudents.AddAll(this.students.Values);
 
             return sortedStudents;
-
         }
     }
 }

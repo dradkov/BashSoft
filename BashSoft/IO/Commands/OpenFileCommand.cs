@@ -1,16 +1,15 @@
 ﻿namespace BashSoft.IO.Commands
 {
-
     using BashSoft.Exceptions;
     using System.Diagnostics;
+    using BashSoft.Attributes;
     using BashSoft.DataInfo;
-    using BashSoft.Contracts;
-    using BashSoft.Contracts.DatabaseInterfaces;
 
+    [Alias("open")]
     public class OpenFileCommand : Command
     {
-        public OpenFileCommand(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger)
-            : base(input, data, judje, repository, inputOutputmaneger)
+        public OpenFileCommand(string input, string[] data)
+            : base(input, data)
         {
         }
 

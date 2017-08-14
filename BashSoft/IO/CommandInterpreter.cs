@@ -1,17 +1,20 @@
 ﻿namespace BashSoft.IO
 {
-    using Repository;
-    using Testing;
+    using System;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using BashSoft.Attributes;
     using BashSoft.Exceptions;
     using BashSoft.IO.Commands;
     using BashSoft.Contracts;
     using BashSoft.Contracts.DatabaseInterfaces;
 
-    public class CommandInterpreter: IInterpreter
+    public class CommandInterpreter : IInterpreter
     {
         private IContentComparer judge;
         private IDatabase repository;
+        [Inject]
         private IDirectoryManager inputOutputManager;
 
         public CommandInterpreter(IContentComparer judge, IDatabase repository, IDirectoryManager inputOutputManager)
@@ -29,61 +32,57 @@
 
             try
             {
-                IExecutable command = this.ParseCommand(input,commandName,data);
+                IExecutable command = this.ParseCommand(input, commandName, data);
                 command.Execute();
             }
-           
+
             catch (DirectoryNotFoundException ex)
             {
 
                 OutputWriter.DisplayException(ex.Message);
             }
-            
+
         }
 
         private IExecutable ParseCommand(string input, string command, string[] data)
         {
-            switch (command)
+
+            object[] parametersForConstructors = new object[] { input, data };
+
+            Type typeOfCommand =
+                Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .First(type => type.GetCustomAttributes(typeof(AliasAttribute))
+                .Where(atr => atr.Equals(command))
+                .ToArray().Length > 0);
+
+            Type typeOfInterpreter = typeof(CommandInterpreter);
+
+            Command exe = (Command)Activator.CreateInstance(typeOfCommand, parametersForConstructors);
+            
+            FieldInfo[] fieldsOfCommands = 
+                typeOfCommand.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+
+            FieldInfo[] fieldsOfInterpreters =
+                typeOfInterpreter.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+
+
+
+            foreach (var fieldCommand in fieldsOfCommands)
             {
-                case "open":
-                    return new OpenFileCommand(input, data, judge, this.repository, this.inputOutputManager);
+                Attribute atribute = fieldCommand.GetCustomAttribute(typeof(InjectAttribute));
 
-                case "mkdir":
-                    return new MakeDirectoryCommand(input, data, judge, this.repository, this.inputOutputManager);
-
-                case "Is":
-                    return new TraverseFoldersCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "cmp":
-                    return new CompareFilesCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "cdRel":
-                    return new ChangeRelativePathCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "cdAbs":
-                    return new ChangeAbsolutePathCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "readDB":
-                    return new ReadDatabaseCommand(input, data, judge, this.repository, this.inputOutputManager);
-
-                case "help":
-                    return new GetHelpCommand(input, data, judge, this.repository, this.inputOutputManager);
-
-                case "filter":
-                    return new PrintFilteredStudentsCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "order":
-                    return new PrintOrderedStudentsCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "dropdb":
-                    return new DropDatabaseCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "download":
-                    return new DownloadRequestCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "downloadAsynch":
-                    return new DownloadAsyncRequest(input, data, judge, this.repository, this.inputOutputManager);
-                case "show":
-                    return new ShowCourseCommand(input, data, judge, this.repository, this.inputOutputManager);
-                case "display":
-                    return new DisplayCommand(input, data, judge, this.repository, this.inputOutputManager);
-                default:
-                    throw new InvalidCommandException(input);
-                   
+                if (atribute != null)
+                {
+                    if (fieldsOfInterpreters.Any(x=>x.FieldType == fieldCommand.FieldType))
+                    {
+                        fieldCommand.SetValue(exe, fieldsOfInterpreters.First(x => x.FieldType == fieldCommand.FieldType).GetValue(this));
+                    }
+                }
             }
-        }
 
+            return exe;
+           
+        }
     }
 }

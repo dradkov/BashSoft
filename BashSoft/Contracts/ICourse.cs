@@ -6,7 +6,9 @@
     public interface ICourse : IComparable<ICourse>
     {
         string Name { get; }
+
         IReadOnlyDictionary<string, IStudent> StudentsByName { get; }
+
         void EnrolledStudents(IStudent student);
 
     }

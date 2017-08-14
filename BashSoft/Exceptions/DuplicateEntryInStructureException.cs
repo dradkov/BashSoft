@@ -10,16 +10,14 @@ namespace BashSoft.Exceptions
     {
         public const string DuplicateEntry = "The {0} already exist in {1}.";
 
-
-
-
         public DuplicateEntryInStructureException(string message)
             :base(message)
         {
 
         }
-        public DuplicateEntryInStructureException(string entity,string structure)
-            :base(string.Format( DuplicateEntry,entity,structure))
+
+        public DuplicateEntryInStructureException(string entity, string structure)
+            :base(string.Format( DuplicateEntry, entity, structure))
         {
 
         }

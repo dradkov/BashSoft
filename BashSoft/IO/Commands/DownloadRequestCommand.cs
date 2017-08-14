@@ -1,14 +1,13 @@
 ﻿namespace BashSoft.IO.Commands
 {
-
+    using BashSoft.Attributes;
     using BashSoft.Exceptions;
-    using BashSoft.Contracts;
     using BashSoft.Network;
-    using BashSoft.Contracts.DatabaseInterfaces;
 
+    [Alias("download")]
     public class DownloadRequestCommand : Command
     {
-        public DownloadRequestCommand(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger) : base(input, data, judje, repository, inputOutputmaneger)
+        public DownloadRequestCommand(string input, string[] data) : base(input, data)
         {
         }
 

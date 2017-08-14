@@ -1,12 +1,12 @@
 ﻿namespace BashSoft.IO.Commands
 {
+    using BashSoft.Attributes;
     using BashSoft.Exceptions;
-    using BashSoft.Contracts;
-    using BashSoft.Contracts.DatabaseInterfaces;
 
+    [Alias("help")]
     public class GetHelpCommand : Command
     {
-        public GetHelpCommand(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger) : base(input, data, judje, repository, inputOutputmaneger)
+        public GetHelpCommand(string input, string[] data) : base(input, data)
         {
         }
 

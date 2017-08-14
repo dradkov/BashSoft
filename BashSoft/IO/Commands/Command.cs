@@ -1,5 +1,6 @@
 ﻿namespace BashSoft.IO.Commands
 {
+    using BashSoft.Attributes;
     using BashSoft.Contracts;
     using BashSoft.Contracts.DatabaseInterfaces;
 
@@ -9,21 +10,17 @@
         private string[] data;
         private IContentComparer judje;
         private IDatabase repository;
-        private IDirectoryManager inputOutputmaneger;
+        private IDirectoryManager inputOutputManeger;
 
 
-        public Command(string input, string[] data, IContentComparer judje, IDatabase repository, IDirectoryManager inputOutputmaneger)
+        protected Command(string input, string[] data)
         {
             this.Input = input;
             this.Data = data;
-            this.judje = judje;
-            this.repository = repository;
-            this.inputOutputmaneger = inputOutputmaneger;
-                
+                   
         }
 
-
-        protected string Input
+        public string Input
         {
             get
             {
@@ -36,7 +33,7 @@
 
         }
 
-        protected string[] Data
+        public string[] Data
         {
             get
             {
@@ -48,29 +45,7 @@
             }
 
         }
-        protected IContentComparer Judge
-        {
-            get
-            {
-                return this.judje;
-            }
-
-        }
-        protected IDatabase Repository
-        {
-            get
-            {
-                return this.repository;
-            }
-
-        }
-        protected IDirectoryManager InputOutputmaneger
-        {
-            get
-            {
-                return this.inputOutputmaneger;
-            }
-        }
+        
 
 
         public abstract void Execute();
